@@ -37,7 +37,7 @@ lifecycle = "2.9.6"
 
 kotlinx-coroutines = "1.10.2"
 kotlinx-serialization = "1.9.0"
-kotlinx-datetime = "0.7.1"
+kotlinx-datetime = "0.7.1-0.6.x-compat"
 
 turbine = "1.1.0"
 kotest = "5.9.1"
