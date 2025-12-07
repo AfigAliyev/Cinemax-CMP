@@ -40,16 +40,13 @@ import com.cinemax.feature.details.component.MovieDetailsItemPlaceholder
 import com.cinemax.feature.details.component.TvShowDetailsItem
 import com.cinemax.feature.details.component.TvShowDetailsItemPlaceholder
 import org.koin.compose.viewmodel.koinViewModel
-import org.koin.core.parameter.parametersOf
 
 @Composable
 fun DetailsRoute(
-    mediaType: DetailsMediaType,
-    id: Int,
     onNavigateBack: () -> Unit,
     onShowMessage: (String) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: DetailsViewModel = koinViewModel(parameters = { parametersOf(mediaType, id) })
+    viewModel: DetailsViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 

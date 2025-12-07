@@ -16,6 +16,7 @@
 
 package com.cinemax.feature.details
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cinemax.composeapp.generated.resources.Res
@@ -32,6 +33,7 @@ import com.cinemax.core.domain.usecase.RemoveMovieFromWishlistUseCase
 import com.cinemax.core.domain.usecase.RemoveTvShowFromWishlistUseCase
 import com.cinemax.core.model.UserMessage
 import com.cinemax.core.navigation.DetailsMediaType
+import com.cinemax.core.navigation.Route
 import com.cinemax.core.ui.common.EventHandler
 import com.cinemax.core.ui.mapper.asMovieDetails
 import com.cinemax.core.ui.mapper.asTvShowDetails
@@ -48,10 +50,11 @@ class DetailsViewModel(
     private val addTvShowToWishlistUseCase: AddTvShowToWishlistUseCase,
     private val removeMovieFromWishlistUseCase: RemoveMovieFromWishlistUseCase,
     private val removeTvShowFromWishlistUseCase: RemoveTvShowFromWishlistUseCase,
-    mediaType: DetailsMediaType,
-    id: Int
+    savedStateHandle: SavedStateHandle
 ) : ViewModel(), EventHandler<DetailsEvent> {
-    private val _uiState = MutableStateFlow(DetailsUiState(mediaType = mediaType, id = id))
+    private val route = Route.Details.from(savedStateHandle)
+
+    private val _uiState = MutableStateFlow(DetailsUiState(mediaType = route.mediaType, id = route.id))
     val uiState = _uiState.asStateFlow()
 
     private var contentJob = loadContent()

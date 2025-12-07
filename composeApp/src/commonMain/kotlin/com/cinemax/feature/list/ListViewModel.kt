@@ -16,6 +16,7 @@
 
 package com.cinemax.feature.list
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
@@ -23,7 +24,7 @@ import com.cinemax.core.domain.model.MovieModel
 import com.cinemax.core.domain.model.TvShowModel
 import com.cinemax.core.domain.usecase.GetMoviesPagingUseCase
 import com.cinemax.core.domain.usecase.GetTvShowsPagingUseCase
-import com.cinemax.core.navigation.ListMediaType
+import com.cinemax.core.navigation.Route
 import com.cinemax.core.ui.mapper.asMovie
 import com.cinemax.core.ui.mapper.asTvShow
 import com.cinemax.core.ui.mapper.pagingMap
@@ -34,14 +35,16 @@ import kotlinx.coroutines.flow.emptyFlow
 class ListViewModel(
     private val getMoviesPagingUseCase: GetMoviesPagingUseCase,
     private val getTvShowsPagingUseCase: GetTvShowsPagingUseCase,
-    mediaType: ListMediaType
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(getInitialUiState(mediaType))
+    private val route = Route.List.from(savedStateHandle)
+
+    private val _uiState = MutableStateFlow(getInitialUiState())
     val uiState = _uiState.asStateFlow()
 
-    private fun getInitialUiState(mediaType: ListMediaType): ListUiState {
-        val movieMediaType = mediaType.toMovieMediaTypeModel()
-        val tvShowMediaType = mediaType.toTvShowMediaTypeModel()
+    private fun getInitialUiState(): ListUiState {
+        val movieMediaType = route.mediaType.toMovieMediaTypeModel()
+        val tvShowMediaType = route.mediaType.toTvShowMediaTypeModel()
 
         val movies = movieMediaType?.let { movieType ->
             getMoviesPagingUseCase(movieType)
@@ -56,7 +59,7 @@ class ListViewModel(
         } ?: emptyFlow()
 
         return ListUiState(
-            mediaType = mediaType,
+            mediaType = route.mediaType,
             movies = movies,
             tvShows = tvShows
         )

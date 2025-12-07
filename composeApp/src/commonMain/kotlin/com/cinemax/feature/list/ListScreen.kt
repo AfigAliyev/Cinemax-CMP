@@ -34,22 +34,19 @@ import com.cinemax.core.designsystem.component.CinemaxTopAppBar
 import com.cinemax.core.model.Movie
 import com.cinemax.core.model.TvShow
 import com.cinemax.core.navigation.DetailsMediaType
-import com.cinemax.core.navigation.ListMediaType
 import com.cinemax.core.ui.CinemaxBackButton
 import com.cinemax.core.ui.MediaTabPager
 import com.cinemax.core.ui.MoviesContainer
 import com.cinemax.core.ui.TvShowsContainer
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import org.koin.core.parameter.parametersOf
 
 @Composable
 fun ListRoute(
-    mediaType: ListMediaType,
     onNavigateBack: () -> Unit,
     onNavigateToDetails: (DetailsMediaType, Int) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: ListViewModel = koinViewModel(parameters = { parametersOf(mediaType) })
+    viewModel: ListViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val movies = uiState.movies.collectAsLazyPagingItems()

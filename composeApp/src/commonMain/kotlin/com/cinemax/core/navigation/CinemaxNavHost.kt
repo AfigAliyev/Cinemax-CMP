@@ -25,7 +25,6 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import androidx.navigation.toRoute
 import com.cinemax.CinemaxAppState
 import com.cinemax.feature.home.HomeRoute
 import com.cinemax.feature.settings.SettingsRoute
@@ -33,7 +32,6 @@ import com.cinemax.feature.list.ListRoute
 import com.cinemax.feature.search.SearchRoute
 import com.cinemax.feature.details.DetailsRoute
 import com.cinemax.feature.wishlist.WishlistRoute
-import kotlin.reflect.typeOf
 
 @Composable
 fun CinemaxNavHost(
@@ -48,12 +46,8 @@ fun CinemaxNavHost(
     ) {
         mainGraph(appState)
 
-        composable<Route.List>(
-            typeMap = mapOf(typeOf<ListMediaType>() to serializableType<ListMediaType>())
-        ) { backStackEntry ->
-            val route = backStackEntry.toRoute<Route.List>()
+        composable<Route.List>(typeMap = Route.List.typeMap) {
             ListRoute(
-                mediaType = route.mediaType,
                 onNavigateBack = appState::navigateBack,
                 onNavigateToDetails = { mediaType, id ->
                     appState.navigateTo(Route.Details(id = id, mediaType = mediaType))
@@ -61,13 +55,8 @@ fun CinemaxNavHost(
             )
         }
 
-        composable<Route.Details>(
-            typeMap = mapOf(typeOf<DetailsMediaType>() to serializableType<DetailsMediaType>())
-        ) { backStackEntry ->
-            val route = backStackEntry.toRoute<Route.Details>()
+        composable<Route.Details>(typeMap = Route.Details.typeMap) {
             DetailsRoute(
-                mediaType = route.mediaType,
-                id = route.id,
                 onNavigateBack = appState::navigateBack,
                 onShowMessage = onShowMessage
             )

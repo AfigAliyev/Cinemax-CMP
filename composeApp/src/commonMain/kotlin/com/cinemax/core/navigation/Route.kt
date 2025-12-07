@@ -16,6 +16,8 @@
 
 package com.cinemax.core.navigation
 
+import androidx.lifecycle.SavedStateHandle
+import androidx.navigation.toRoute
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -36,10 +38,24 @@ sealed interface Route {
     }
 
     @Serializable
-    data class List(val mediaType: ListMediaType) : Route
+    data class List(val mediaType: ListMediaType) : Route {
+        companion object {
+            val typeMap = typeMap<ListMediaType>()
+
+            fun from(savedStateHandle: SavedStateHandle) =
+                savedStateHandle.toRoute<List>(typeMap)
+        }
+    }
 
     @Serializable
-    data class Details(val id: Int, val mediaType: DetailsMediaType) : Route
+    data class Details(val id: Int, val mediaType: DetailsMediaType) : Route {
+        companion object {
+            val typeMap = typeMap<DetailsMediaType>()
+
+            fun from(savedStateHandle: SavedStateHandle) =
+                savedStateHandle.toRoute<Details>(typeMap)
+        }
+    }
 }
 
 @Serializable

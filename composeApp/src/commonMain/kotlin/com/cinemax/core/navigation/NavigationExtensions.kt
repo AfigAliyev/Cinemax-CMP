@@ -21,6 +21,10 @@ import androidx.savedstate.SavedState
 import androidx.savedstate.read
 import androidx.savedstate.write
 import kotlinx.serialization.json.Json
+import kotlin.reflect.KType
+import kotlin.reflect.typeOf
+
+inline fun <reified T : Any> typeMap(): Map<KType, NavType<T>> = mapOf(typeOf<T>() to serializableType<T>())
 
 inline fun <reified T : Any> serializableType(
     isNullableAllowed: Boolean = false,
