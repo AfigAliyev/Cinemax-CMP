@@ -26,7 +26,7 @@ androidx-test-uiautomator = "2.3.0"
 junit = "4.13.2"
 
 koin-bom = "4.1.1"
-ktor-bom = "3.3.2"
+ktor-bom = "3.3.3"
 coil = "3.3.0"
 datastore = "1.2.0"
 androidx-room = "2.8.4"
