@@ -1,0 +1,133 @@
+/*
+ * Copyright 2022 Afig Aliyev
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.cinemax.core.designsystem.component
+
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.LocalMinimumInteractiveComponentSize
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.dp
+import com.cinemax.core.designsystem.theme.CinemaxTheme
+import org.jetbrains.compose.resources.DrawableResource
+
+@Composable
+fun CinemaxOutlinedButton(
+    text: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    shape: Shape = CinemaxTheme.shapes.medium,
+    containerColor: Color = CinemaxTheme.colors.primarySoft,
+    contentColor: Color = CinemaxTheme.colors.primaryBlue,
+    borderColor: Color = contentColor,
+    textStyle: TextStyle = CinemaxTheme.typography.medium.h5
+) {
+    OutlinedButton(
+        onClick = onClick,
+        modifier = modifier,
+        shape = shape,
+        colors = ButtonDefaults.outlinedButtonColors(
+            containerColor = containerColor,
+            contentColor = contentColor
+        ),
+        border = ButtonDefaults.outlinedButtonBorder(enabled = true).copy(brush = SolidColor(borderColor))
+    ) {
+        Text(text = text, style = textStyle)
+    }
+}
+
+@Composable
+fun CinemaxIconButton(
+    imageVector: ImageVector,
+    contentDescription: String?,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    tint: Color = LocalContentColor.current
+) {
+    CinemaxIconButtonContent(
+        modifier = modifier,
+        onClick = onClick
+    ) {
+        CinemaxIcon(
+            imageVector = imageVector,
+            contentDescription = contentDescription,
+            tint = tint
+        )
+    }
+}
+
+@Composable
+fun CinemaxIconButton(
+    painter: androidx.compose.ui.graphics.painter.Painter,
+    contentDescription: String?,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    tint: Color = LocalContentColor.current
+) {
+    CinemaxIconButtonContent(
+        modifier = modifier,
+        onClick = onClick
+    ) {
+        CinemaxIcon(
+            painter = painter,
+            contentDescription = contentDescription,
+            tint = tint
+        )
+    }
+}
+
+@Composable
+fun CinemaxIconButton(
+    icon: DrawableResource,
+    contentDescription: String?,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    tint: Color = LocalContentColor.current
+) {
+    CinemaxIconButtonContent(
+        modifier = modifier,
+        onClick = onClick
+    ) {
+        CinemaxIcon(
+            icon = icon,
+            contentDescription = contentDescription,
+            tint = tint
+        )
+    }
+}
+
+@Composable
+private fun CinemaxIconButtonContent(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit
+) {
+    CompositionLocalProvider(
+        LocalMinimumInteractiveComponentSize provides 0.dp
+    ) {
+        IconButton(modifier = modifier, onClick = onClick, content = content)
+    }
+}

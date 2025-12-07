@@ -1,0 +1,50 @@
+/*
+ * Copyright 2022 Afig Aliyev
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.cinemax.core.network.model.common
+
+sealed interface NetworkMediaType {
+    enum class Movie(val mediaType: String) : NetworkMediaType {
+        UPCOMING("upcoming"),
+        TOP_RATED("top_rated"),
+        POPULAR("popular"),
+        NOW_PLAYING("now_playing"),
+        DISCOVER("discover"),
+        TRENDING("trending");
+
+        companion object {
+            private val mediaTypes = entries.associateBy(Movie::mediaType)
+            operator fun get(mediaType: String) = checkNotNull(mediaTypes[mediaType]) {
+                "Invalid media type: $mediaType"
+            }
+        }
+    }
+
+    enum class TvShow(val mediaType: String) : NetworkMediaType {
+        TOP_RATED("top_rated"),
+        POPULAR("popular"),
+        NOW_PLAYING("now_playing"),
+        DISCOVER("discover"),
+        TRENDING("trending");
+
+        companion object {
+            private val mediaTypes = entries.associateBy(TvShow::mediaType)
+            operator fun get(mediaType: String) = checkNotNull(mediaTypes[mediaType]) {
+                "Invalid media type: $mediaType"
+            }
+        }
+    }
+}
