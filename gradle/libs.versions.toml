@@ -41,7 +41,7 @@ kotlinx-datetime = "0.7.1"
 
 turbine = "1.1.0"
 kotest = "5.9.1"
-mockk = "1.14.6"
+mockk = "1.14.7"
 
 kermit = "2.0.4"
 buildconfig = "5.7.1"
